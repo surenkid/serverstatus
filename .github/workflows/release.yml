@@ -138,10 +138,13 @@ jobs:
       image: docker://ghcr.io/rust-cross/rust-musl-cross:${{ matrix.platform.target }}
     steps:
       - uses: actions/checkout@v4
-      - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.platform.target }}
+      # NOTE: rust-musl-cross images already include a Rust toolchain for the target.
+      # Re-installing/updating via rustup can fail in container images that trim docs
+      # (e.g. rustup uninstall errors like missing share/doc/clippy/README.md).
+      - name: Show Rust toolchain
+        run: |
+          rustc -Vv
+          cargo -V
 
       - name: Install packages
         run: |
