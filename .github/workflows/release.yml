@@ -272,6 +272,7 @@ jobs:
     permissions:
       contents: write
     strategy:
+      fail-fast: false
       matrix:
         platform:
           - os: ubuntu-latest
