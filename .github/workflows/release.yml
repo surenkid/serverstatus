@@ -335,6 +335,7 @@ jobs:
           use-cross: ${{ matrix.platform.use-cross }}
           args: --locked --release --target=${{ matrix.platform.target }} ${{ matrix.platform.cargo-flags }}
         env:
+          AWS_LC_RUST_INTERNAL_BINDGEN: 1
           AWS_LC_SYS_NO_ASM: 1
           AWS_LC_SYS_CMAKE_BUILDER: 1
 
