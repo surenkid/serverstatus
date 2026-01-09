@@ -138,29 +138,10 @@ jobs:
       image: docker://ghcr.io/rust-cross/rust-musl-cross:${{ matrix.platform.target }}
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Rust toolchain
-        env:
-          TARGET: ${{ matrix.platform.target }}
-        run: |
-          # The container should have Rust pre-installed, but ensure target is available
-          if command -v rustc &> /dev/null; then
-            echo "Using container's Rust toolchain"
-            source $HOME/.cargo/env 2>/dev/null || true
-          else
-            echo "Installing Rust toolchain"
-            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable --profile minimal
-            source $HOME/.cargo/env
-          fi
-          # Ensure target is installed
-          rustup target add $TARGET || true
-          # Verify toolchain and show environment
-          rustc --version
-          rustup show
-          echo "CC: ${CC:-not set}"
-          echo "Available linkers:"
-          which gcc || echo "gcc not found"
-          which ${TARGET}-gcc || echo "${TARGET}-gcc not found"
-          find /usr -name "*${TARGET}*gcc*" 2>/dev/null | head -5 || echo "No cross-compiler found in /usr"
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform.target }}
 
       - name: Install packages
         run: |
