@@ -4,7 +4,7 @@
 
 ## 项目说明
 
-基于 ServerStatus-Rust 的修改版本，添加了一些自定义功能和改进。
+基于 ServerStatus-Rust 的修改版本，添加了一些自定义的修改。
 
 ## 许可证
 
