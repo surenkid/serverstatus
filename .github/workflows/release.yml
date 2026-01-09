@@ -138,10 +138,18 @@ jobs:
       image: docker://ghcr.io/rust-cross/rust-musl-cross:${{ matrix.platform.target }}
     steps:
       - uses: actions/checkout@v4
+      - name: Cleanup existing Rust installation
+        continue-on-error: true
+        run: |
+          if command -v rustup &> /dev/null; then
+            rustup self uninstall -y || true
+          fi
+          rm -rf ~/.rustup ~/.cargo || true
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: ${{ matrix.platform.target }}
+          profile: minimal
 
       - name: Install packages
         run: |
