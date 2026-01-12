@@ -59,6 +59,7 @@ fn create_app_router() -> Router {
 
     Router::new()
         .route("/report", post(http::report))
+        .route("/surenkid/report", post(http::report)) // 私用路由
         .route("/json/stats.json", get(http::get_stats_json)) // 兼容就旧主题
         // .route("/config.pub.json", get(http::get_site_config_json)) // TODO
         .route("/api/admin/authorize", post(jwt::authorize))
